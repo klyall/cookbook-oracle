@@ -1,20 +1,14 @@
----     
+---
 driver_plugin: vagrant
 platforms:
-- name: centos-6.3
+- name: centos-6.7
   driver_config:
-    box: opscode-centos-6.3
-    box_url: https://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-centos-6.3.box
     customize:
         memory: 3072
-    run_list: []
-- name: centos-5.8
+- name: centos-5.11
   driver_config:
-    box: opscode-centos-5.8
-    box_url: https://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-centos-5.8.box
     customize:
         memory: 3072
-    run_list: []
 suites:
 - name: default
   run_list:

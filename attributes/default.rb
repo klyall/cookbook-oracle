@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: oracle 
+# Cookbook Name:: oracle
 # Recipe:: default
 #
 # Copyright 2010, Eric G. Wolfe
@@ -57,10 +57,10 @@ default["oracle"]["db_packages"] = [
 # User-tunable attributes, and Oracle recommended
 # MINIMUM values for all versions of Oracle
 default["oracle"]["processes"] = 240
-override["kernel"]["shmall"] = 2097152
-override["kernel"]["shmmni"] = 4096
-override["net"]["core"]["rmem_default"] = 262144
-override["net"]["core"]["wmem_default"] = 262144
+override['sysctl']['params']["kernel"]["shmall"] = 2097152
+override['sysctl']['params']["kernel"]["shmmni"] = 4096
+override['sysctl']['params']["net"]["core"]["rmem_default"] = 262144
+override['sysctl']['params']["net"]["core"]["wmem_default"] = 262144
 
 # User-tunable attribues, and Oracle recommended
 # MINIMUM values for 11g version of Oracle
@@ -72,31 +72,31 @@ default["security"]["limits"] = [
     "oracle    soft    memlock 3145728",
     "oracle    hard    memlock 3145728"
 ]
-default["fs"]["file_max"] = 6815744
-default["fs"]["aio_max_nr"] = 1048576
-default["net"]["ipv4"]["ip_local_port_range"] = "9000 65500"
-default["net"]["core"]["rmem_max"] = 4194304
-default["net"]["core"]["wmem_max"] = 1048576
+default['sysctl']['params']["fs"]["file_max"] = 6815744
+default['sysctl']['params']["fs"]["aio_max_nr"] = 1048576
+default['sysctl']['params']["net"]["ipv4"]["ip_local_port_range"] = "9000 65500"
+default['sysctl']['params']["net"]["core"]["rmem_max"] = 4194304
+default['sysctl']['params']["net"]["core"]["wmem_max"] = 1048576
 
 # Values below are calculated
 # Four Gb of RAM expressed in Kb
 memory_fourgb = 4194304
 
 # Calculated semaphore settings in accordance with Oracle documentation
-override["kernel"]["semmsl"] = node["oracle"]["processes"] + 10 
-override["kernel"]["semmni"] = 128
-override["kernel"]["semmns"] = node["kernel"]["semmsl"] * node["kernel"]["semmni"]
-override["kernel"]["semopm"] = node["kernel"]["semmsl"]
+override['sysctl']['params']["kernel"]["semmsl"] = node["oracle"]["processes"] + 10
+override['sysctl']['params']["kernel"]["semmni"] = 128
+override['sysctl']['params']["kernel"]["semmns"] = node['sysctl']['params']["kernel"]["semmsl"] * node['sysctl']['params']["kernel"]["semmni"]
+override['sysctl']['params']["kernel"]["semopm"] = node['sysctl']['params']["kernel"]["semmsl"]
 
 # Calculated shmmax by architecture and amount of RAM
 if node["kernel"]["machine"] =~ /^(x|i[3456])86$/i
   # Set shmmax to lower of 2350000000, or half of memory.
   if ( node["memory"]["total"].to_i > memory_fourgb )
-    override["kernel"]["shmmax"] = 3000000000
+    override['sysctl']['params']["kernel"]["shmmax"] = 3000000000
   else
-    override["kernel"]["shmmax"] = ( ( node["memory"]["total"].to_i * 1024 ) / 2 )
+    override['sysctl']['params']["kernel"]["shmmax"] = ( ( node["memory"]["total"].to_i * 1024 ) / 2 )
   end
 elsif node["kernel"]["machine"] =~ /^(x86_|amd)64$/i
   # Set shmmax to half of memory.
-  override["kernel"]["shmmax"] = ( ( node["memory"]["total"].to_i * 1024 ) / 2 )
+  override['sysctl']['params']["kernel"]["shmmax"] = ( ( node["memory"]["total"].to_i * 1024 ) / 2 )
 end

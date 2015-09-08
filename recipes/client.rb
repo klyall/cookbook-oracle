@@ -44,4 +44,5 @@ directory "/u01/app/oracle" do
   recursive true
 end
 
-include_recipe "el-sysctl"
+include_recipe "sysctl::default"
+include_recipe "sysctl::apply"

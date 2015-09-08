@@ -1,5 +1,6 @@
-chef_api :config
-site :opscode
+source 'https://supermarket.chef.io'
 
+# Read the cookbook dependencies from the metadata.rb file
 metadata
+
 cookbook 'minitest-handler'

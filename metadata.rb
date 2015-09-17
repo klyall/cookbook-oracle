@@ -4,11 +4,11 @@ maintainer_email "wolfe21@marshall.edu"
 license          "Apache 2.0"
 description      "Installs/Configures oracle pre-requisites."
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "0.1.0"
-depends          "el-sysctl"
+version          "1.0"
+
+depends          "sysctl"
 depends          "x-windows"
 depends          "gnome"
-conflicts        "sysctl"
 
 %w{ redhat centos scientific }.each do |os|
   supports os, ">= 5.0"

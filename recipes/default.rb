@@ -50,15 +50,14 @@ end
 
 user "oracle" do
   comment "Oracle Service Account - DBA"
-  uid 200
   home "/home/oracle"
   shell "/bin/bash"
+  system true
   ignore_failure true
   supports :manage_home => true
 end
 
 group "dba" do
-  gid 200
   ignore_failure true
   members node["oracle"]["dbas"]
 end
@@ -70,4 +69,5 @@ directory "/u01/app/oracle" do
   recursive true
 end
 
-include_recipe "el-sysctl"
+include_recipe "sysctl::default"
+include_recipe "sysctl::apply"
